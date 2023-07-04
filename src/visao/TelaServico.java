@@ -69,7 +69,7 @@ public class TelaServico extends javax.swing.JDialog {
             this.prestarServico.setHorario(dfh.parse(txt_Format_HoraParaServico.getText()));
 
             controle.salvarPrestarServico(prestarServico);
-            JOptionPane.showMessageDialog(null, "SErviço salvo !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Serviço salvo !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         } else {   
             this.prestarServico.setData(txtData.getDate());
             this.prestarServico.setDescricao(txtDescricaoServico.getText());
@@ -234,6 +234,8 @@ public class TelaServico extends javax.swing.JDialog {
                 txt_Format_HoraParaServicoActionPerformed(evt);
             }
         });
+
+        txtData.setDateFormatString("dd/MM/yyyy");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

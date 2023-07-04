@@ -24,7 +24,7 @@ public class Conexao {
     public static EntityManager getConexao() {
 
         if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("Genu-inprestacaoservico_testePU");
+            emf = Persistence.createEntityManagerFactory("Genu-inprestacaoservicoPU");
 
         }
         return emf.createEntityManager();

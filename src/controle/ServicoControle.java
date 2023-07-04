@@ -5,12 +5,11 @@
  */
 package controle;
 
-
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import model.Funcionario;
 import model.Prestarservico;
 import util.Conexao;
 
@@ -21,8 +20,6 @@ import util.Conexao;
 public class ServicoControle {
 
     public static Collection<?> listarTodos;
-
-   
 
     /**
      * METODO REALIZA A PERSISTENCIA E A ATUALIZAÇÃO DO OBJETO NO BANCO DE
@@ -71,10 +68,10 @@ public class ServicoControle {
     }
 
     /**
-     * METODO RECEBE UM ID E RETORNA O OBJETO
-     * CORRESPONDENTE.
+     * METODO RECEBE UM ID E RETORNA O OBJETO CORRESPONDENTE.
+     *
      * @param id
-     * @return 
+     * @return
      */
     public Prestarservico buscarPorId(int id) {
         EntityManager em = Conexao.getConexao();
@@ -84,12 +81,13 @@ public class ServicoControle {
         em.getTransaction().commit();
         return s;
     }
-    
-    
+
     /**
-     * METODO RECEBE UMA INSTRUÇÃO JPQL (SQL) E RETORNA OS OBJETOS CORRESPONDENTES
+     * METODO RECEBE UMA INSTRUÇÃO JPQL (SQL) E RETORNA OS OBJETOS
+     * CORRESPONDENTES
+     *
      * @param comando
-     * @return 
+     * @return
      */
     public List pesquisarRelease(String comando) {
         EntityManager em = Conexao.getConexao();
@@ -101,5 +99,28 @@ public class ServicoControle {
         return lista;
 
     }
-
+/**
+ * Metodo recebe duas datas e realiza a consulta no banco de dados
+ * dentro do intervalo informado.
+ * @param inicio
+ * @param fim
+ * @return 
+ */
+    public List consultarPeriodo(Date inicio, Date fim) {
+        EntityManager em = Conexao.getConexao();
+        List lista = null;
+        try {
+            em.getTransaction().begin();
+            //Select c from Caixa c where c.dataCaixa between :x and :y
+            TypedQuery consulta = em.createQuery("Select p from Prestarservico  p where p.data between :x and :y order by p.data", Prestarservico.class);
+            consulta.setParameter("x", inicio);
+            consulta.setParameter("y", fim);
+            lista = consulta.getResultList();
+            em.getTransaction().commit();
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar o periodo! " + e);
+        }
+        return null;
+    }
 }
