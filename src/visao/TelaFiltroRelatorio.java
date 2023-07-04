@@ -138,10 +138,10 @@ public class TelaFiltroRelatorio extends javax.swing.JDialog {
     private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
         // TODO add your handling code here:
         if (jDateInit.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "A Data de inicio deve ser informada para a consulta!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "A data de INICIO deve ser informada para a consulta!", "Atenção", JOptionPane.WARNING_MESSAGE);
             jDateInit.requestFocus();
         } else if (jdFinal.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "A Data de fim deve ser informada para a consulta!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "A data de FIM deve ser informada para a consulta!", "Atenção", JOptionPane.WARNING_MESSAGE);
             jdFinal.requestFocus();
         } else {
             Date inicio = jDateInit.getDate();
