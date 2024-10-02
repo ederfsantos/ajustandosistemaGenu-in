@@ -1,6 +1,5 @@
 package visao;
 
-
 import controle.ClienteControle;
 import controle.FuncionarioControle;
 import controle.ServicoControle;
@@ -37,11 +36,11 @@ public class TelaServico extends javax.swing.JDialog {
     public TelaServico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-       
+
         funcionarios = cf.listarTodos();
         clientes = cc.listarTodos();
         for (Funcionario f : funcionarios) {
-           comboFuncionario.addItem(f.getNome());
+            comboFuncionario.addItem(f.getNome());
         }
 
     }
@@ -53,40 +52,52 @@ public class TelaServico extends javax.swing.JDialog {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
-    
-    public void salvarPrestarServico()throws ParseException {
-          if (this.prestarServico == null) {
-            this.prestarServico = new Prestarservico();
-            this.prestarServico.setData(txtData.getDate());
-            this.prestarServico.setDescricao(txtDescricaoServico.getText());
-            this.prestarServico.setValor(Float.parseFloat(txtValorServico.getText()));
-           // this.agenda.setCliente(localizarCliente(String.valueOf(jTableListaCliente.getSelectedRow())));
-              
-           this.prestarServico.setCliente(localizarCliente(txtPesquisar.getText())); // estou pegando o nome do cliente do campo de pesquisa
-            this.prestarServico.setFuncionario(localizarFuncionario(String.valueOf(comboFuncionario.getSelectedItem())));
-            this.prestarServico.setHorario(dfh.parse(txt_Format_HoraParaServico.getText()));
 
-            controle.salvarPrestarServico(prestarServico);
-            JOptionPane.showMessageDialog(null, "Serviço salvo !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-        } else {   
-            this.prestarServico.setData(txtData.getDate());
-            this.prestarServico.setDescricao(txtDescricaoServico.getText());
-            this.prestarServico.setValor(Float.parseFloat(txtValorServico.getText()));
-           // this.agenda.setCliente(localizarCliente(String.valueOf(jTableListaCliente.getSelectedRow())));
-           // não preciso ler o cliente, pois estou alterando um agendamento existente. 
-            this.prestarServico.setFuncionario(localizarFuncionario(String.valueOf(comboFuncionario.getSelectedItem())));
-            this.prestarServico.setHorario(dfh.parse(txt_Format_HoraParaServico.getText()));
+    public void salvarPrestarServico() throws ParseException {
 
-            controle.salvarPrestarServico(prestarServico);
-            JOptionPane.showMessageDialog(null, "Prestação de Serviço Atualizada !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        //inicio do teste de validação
+        if (txtPesquisar.getText().equals("") || txtDescricaoServico.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Defina um cliente ou descrição para o serviço!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            txtPesquisar.requestFocus();
+
+        } else if (txtData.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Defina uma data para a prestação de serviço!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            txtData.requestFocus();
+        } else if (txt_Format_HoraParaServico.getText().equals("  :  ") || txtValorServico.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Defina um horário ou o valor para a prestação de serviço!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            txt_Format_HoraParaServico.requestFocus();
+
+            //fim  do teste de validação
+        } else {
+            if (this.prestarServico == null) {
+                this.prestarServico = new Prestarservico();
+                this.prestarServico.setData(txtData.getDate());
+                this.prestarServico.setDescricao(txtDescricaoServico.getText());
+                this.prestarServico.setValor(Float.parseFloat(txtValorServico.getText()));
+                this.prestarServico.setCliente(this.cliente);
+                this.prestarServico.setFuncionario(localizarFuncionario(String.valueOf(comboFuncionario.getSelectedItem())));
+                this.prestarServico.setHorario(dfh.parse(txt_Format_HoraParaServico.getText()));
+                controle.salvarPrestarServico(prestarServico);
+                JOptionPane.showMessageDialog(null, "Serviço salvo !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                this.prestarServico.setData(txtData.getDate());
+                this.prestarServico.setDescricao(txtDescricaoServico.getText());
+                this.prestarServico.setValor(Float.parseFloat(txtValorServico.getText()));
+                // this.agenda.setCliente(localizarCliente(String.valueOf(jTableListaCliente.getSelectedRow())));
+                // não preciso ler o cliente, pois estou alterando um agendamento existente. 
+                this.prestarServico.setFuncionario(localizarFuncionario(String.valueOf(comboFuncionario.getSelectedItem())));
+                this.prestarServico.setHorario(dfh.parse(txt_Format_HoraParaServico.getText()));
+
+                controle.salvarPrestarServico(prestarServico);
+                JOptionPane.showMessageDialog(null, "Prestação de Serviço Atualizada !!!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         }
-             
-     
+
     }
-   
-   public Cliente localizarCliente(String nome) {
+
+    public Cliente localizarCliente(String nome) {
         for (Cliente c : clientes) {
             if (c.getNome().equals(nome)) {
                 return c;
@@ -95,8 +106,8 @@ public class TelaServico extends javax.swing.JDialog {
         }
         return null;
     }
-    
-      /**
+
+    /**
      * METODO REALIZA UMA LISTAGEM DOS CLIENTES EXISTENTES NO BANCO DE DADOS.
      */
     public void listarTodosClientes() {
@@ -117,19 +128,20 @@ public class TelaServico extends javax.swing.JDialog {
     }
 
     public void limparCampos() {
-       
+
         txtDescricaoServico.setText("");
         txtValorServico.setText("");
         txt_Format_HoraParaServico.setText("");
-       // jTableListaCliente.("");
+        // jTableListaCliente.("");
         comboFuncionario.setSelectedItem("");
 
     }
-     public Prestarservico getPrestarservico(){
-         return prestarServico;
-     }
-     
-       public void setPrestarServico(Prestarservico prestarservico) {
+
+    public Prestarservico getPrestarservico() {
+        return prestarServico;
+    }
+
+    public void setPrestarServico(Prestarservico prestarservico) {
         this.prestarServico = prestarservico;
         txtData.setDate(this.prestarServico.getData());
         txt_Format_HoraParaServico.setText((this.prestarServico.getHorario() == null) ? "" : dfh.format(this.prestarServico.getHorario()));
@@ -138,16 +150,10 @@ public class TelaServico extends javax.swing.JDialog {
         comboFuncionario.setSelectedItem(this.prestarServico.getFuncionario().getNome());
         txtPesquisar.setText(prestarservico.getCliente().getNome()); // estou o nome do cliente.
         txtPesquisar.setEditable(false); // nao deixa apagar
-        
+
         bt_Limpar.setEnabled(false);
 
     }
-    
-   
-
-   
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,15 +231,11 @@ public class TelaServico extends javax.swing.JDialog {
         jlValorDiaria.setText("Valor do Serviço");
 
         try {
-            txt_Format_HoraParaServico.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("    ##:##")));
+            txt_Format_HoraParaServico.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txt_Format_HoraParaServico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_Format_HoraParaServicoActionPerformed(evt);
-            }
-        });
+        txt_Format_HoraParaServico.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtData.setDateFormatString("dd/MM/yyyy");
 
@@ -312,11 +314,6 @@ public class TelaServico extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTableListaCliente);
 
-        txtPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPesquisarActionPerformed(evt);
-            }
-        });
         txtPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPesquisarKeyReleased(evt);
@@ -445,10 +442,6 @@ public class TelaServico extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void txt_Format_HoraParaServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_Format_HoraParaServicoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_Format_HoraParaServicoActionPerformed
-
     private void bt_LimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_LimparActionPerformed
         // TODO add your handling code here:
         limparCampos();
@@ -460,13 +453,13 @@ public class TelaServico extends javax.swing.JDialog {
     }//GEN-LAST:event_bt_CancelarActionPerformed
 
     private void bt_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SalvarActionPerformed
-     try {
+        try {
             // TODO add your handling code here:
             salvarPrestarServico();
         } catch (ParseException ex) {
-            System.out.println("Erro ao salvar a agenda " + ex);
+            System.out.println("Erro ao salvar o serviço " + ex);
         }
-           
+
 
     }//GEN-LAST:event_bt_SalvarActionPerformed
 
@@ -497,16 +490,12 @@ public class TelaServico extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboFuncionarioActionPerformed
 
-    private void txtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPesquisarActionPerformed
-
     private void jTableListaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListaClienteMouseClicked
         // TODO add your handling code here:
-         this.cliente = clientes.get(jTableListaCliente.getSelectedRow()); //  nesta linha eu seleciono o cliente 
-         txtPesquisar.setText(cliente.getNome()); // estou atribuindo o nome do cliente 
-             
-        
+        this.cliente = clientes.get(jTableListaCliente.getSelectedRow()); //  nesta linha eu seleciono o cliente 
+        txtPesquisar.setText(cliente.getNome()); // estou atribuindo o nome do cliente 
+
+
     }//GEN-LAST:event_jTableListaClienteMouseClicked
 
     /**
@@ -517,8 +506,8 @@ public class TelaServico extends javax.swing.JDialog {
         DefaultTableModel dtm = (DefaultTableModel) jTableListaCliente.getModel();
         dtm.setNumRows(0);//apagando todas as linhas para novo preenchimento.
         for (Cliente cc : clientes) {
-           
-         dtm.addRow(new Object[]{cc.getNome(),cc.getSetor(), cc.getTelefone()});
+
+            dtm.addRow(new Object[]{cc.getNome(), cc.getSetor(), cc.getTelefone()});
 
         }
 
@@ -541,11 +530,12 @@ public class TelaServico extends javax.swing.JDialog {
         }
 
         str += "order by " + atributo;
-  //      this.clientes = controle.pesquisarRelease(str);//ATUALIZA A LISTA COM OS DADOS DESTA PESQUISA RELEASE
+        //      this.clientes = controle.pesquisarRelease(str);//ATUALIZA A LISTA COM OS DADOS DESTA PESQUISA RELEASE
         DefaultTableModel dtm = (DefaultTableModel) jTableListaCliente.getModel();
         dtm.setNumRows(0);//LIMPA A TABELA
         preencherTabela();//PREENCHE COM OS NOVOS DADOS
     }
+
     /**
      * @param args the command line arguments
      */
@@ -560,16 +550,24 @@ public class TelaServico extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaServico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaServico.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaServico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaServico.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaServico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaServico.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaServico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaServico.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -624,7 +622,5 @@ public class TelaServico extends javax.swing.JDialog {
     private javax.swing.JTextField txtValorServico;
     private javax.swing.JFormattedTextField txt_Format_HoraParaServico;
     // End of variables declaration//GEN-END:variables
-
-   
 
 }

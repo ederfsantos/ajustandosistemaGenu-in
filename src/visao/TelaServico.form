@@ -287,12 +287,10 @@
                 <Component class="javax.swing.JFormattedTextField" name="txt_Format_HoraParaServico">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="    ##:##" subtype="-1" type="5"/>
+                      <Format format="##:##" subtype="-1" type="5"/>
                     </Property>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_Format_HoraParaServicoActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="txtData">
                   <Properties>
@@ -353,7 +351,6 @@
             </Container>
             <Component class="javax.swing.JTextField" name="txtPesquisar">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPesquisarActionPerformed"/>
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPesquisarKeyReleased"/>
               </Events>
             </Component>

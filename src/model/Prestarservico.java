@@ -7,7 +7,6 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import visao.telaprincipal;
 
 /**
  *
@@ -55,7 +53,7 @@ public class Prestarservico implements Serializable {
     @Column(name = "valor")
     private Float valor;
    
-    public List<Cliente> listarTodos;
+   
 
     public Prestarservico() {
     }
