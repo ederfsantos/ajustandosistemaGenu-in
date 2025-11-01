@@ -91,7 +91,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnImprimirRelatorioDeClientes" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton1" max="32767" attributes="0"/>
+                                  <Component id="btMostrarServico" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -115,7 +115,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnImprimirServicosPrestados" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnImprimirRelatorioDeClientes" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btMostrarServico" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -236,7 +236,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImprimirServicosPrestadosActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btMostrarServico">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
@@ -244,7 +244,7 @@
             <Property name="text" type="java.lang.String" value="Mostrar Servi&#xe7;os"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btMostrarServicoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnImprimirRelatorioDeClientes">

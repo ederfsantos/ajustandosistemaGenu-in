@@ -10,6 +10,7 @@ import controle.ServicoControle;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -20,7 +21,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import net.sf.jasperreports.swing.JRViewer;
-
+import util.Conexao;
 
 /**
  *
@@ -31,15 +32,16 @@ public class telaprincipal extends javax.swing.JFrame {
     /**
      * Creates new form telaprincipal
      */
-    
-     private ServicoControle servicoControle;
-     private ClienteControle clienteControle;
-      
+    private ServicoControle servicoControle;
+    private ClienteControle clienteControle;
+    //private EntityManager em = null;
+
     public telaprincipal() {
         initComponents();
-        
+
         this.servicoControle = new ServicoControle();
         this.clienteControle = new ClienteControle();
+        //this.em = Conexao.getConexao();
     }
 
     /**
@@ -62,7 +64,7 @@ public class telaprincipal extends javax.swing.JFrame {
         jPanelFrase = new javax.swing.JPanel();
         jLabelFrase = new javax.swing.JLabel();
         btnImprimirServicosPrestados = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btMostrarServico = new javax.swing.JButton();
         btnImprimirRelatorioDeClientes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -143,11 +145,11 @@ public class telaprincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Mostrar Serviços");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btMostrarServico.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btMostrarServico.setText("Mostrar Serviços");
+        btMostrarServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btMostrarServicoActionPerformed(evt);
             }
         });
 
@@ -180,7 +182,7 @@ public class telaprincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnImprimirRelatorioDeClientes)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(btMostrarServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelPrincipalLayout.setVerticalGroup(
@@ -197,7 +199,7 @@ public class telaprincipal extends javax.swing.JFrame {
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImprimirServicosPrestados)
                     .addComponent(btnImprimirRelatorioDeClientes)
-                    .addComponent(jButton1))
+                    .addComponent(btMostrarServico))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -247,16 +249,16 @@ public class telaprincipal extends javax.swing.JFrame {
         ts.setVisible(true);
     }//GEN-LAST:event_btn_prestar_servicoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btMostrarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarServicoActionPerformed
         // TODO add your handling code here:
         TelaManutencaoServico ms = new TelaManutencaoServico(this, true);
         ms.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btMostrarServicoActionPerformed
 
     private void btnImprimirServicosPrestadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirServicosPrestadosActionPerformed
         // TODO add your handling code here:
-        
-        TelaFiltroRelatorio tela = new TelaFiltroRelatorio(this,true);
+
+        TelaFiltroRelatorio tela = new TelaFiltroRelatorio(this, true);
         tela.setVisible(true);
 //        try {
 //            //teste
@@ -285,31 +287,33 @@ public class telaprincipal extends javax.swing.JFrame {
 
     private void btnImprimirRelatorioDeClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirRelatorioDeClientesActionPerformed
         // TODO add your handling code here:
-        
-         try {
-            JasperReport relatorioCompilado
-                    = JasperCompileManager.compileReport("src/relatorio/Relatório_GENU.jrxml");
-
-            JasperPrint relatorioPreenchido = JasperFillManager.fillReport(relatorioCompilado, null,
-                    new JRBeanCollectionDataSource(clienteControle.listarTodos()));
-
-            JDialog tela = new JDialog(this, "Relatórios de Cliente");
-            tela.setSize(1024, 768);
-            tela.setLocale(null);
-            tela.setLocationRelativeTo(null);
-            JRViewer painel = new JRViewer(relatorioPreenchido);
-            tela.getContentPane().add(painel);
-            System.out.println("Abrindo o relatorio");
-            tela.setVisible(true);
-           // JasperPrintManager.printPage(relatorioPreenchido, 0, false);//para enviar para impressora
-            //true abre janela de impressao, false imprime direto
-
-        } catch (JRException e) {
-            Object ex = null;
-            Logger.getLogger(TelaManutencaoServico.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório " + e);
-
-        }
+        JOptionPane.showMessageDialog(null, "LEGAL!!! RELATORIO ESTA EM DESENVOLVIMENTO!!!");
+//        try {
+//            //teste
+//            String relatorio = "/relatorio/Relatorio_GENU.jasper";
+//            InputStream stream = getClass().getResourceAsStream(relatorio);//PARA FUNCIONAR NO ARQUIVO .JAR TEM QUE USAR ESTA LINHA
+//            //JasperPrint relatorioPreenchido = JasperFillManager.fillReport(relatorio,null,new JRBeanCollectionDataSource(controle.listarTodos()));
+//            JasperPrint relatorioPreenchido = JasperFillManager.fillReport(stream, null, new JRBeanCollectionDataSource(clienteControle.listarTodos()));
+//
+//            JDialog tela = new JDialog(this, "Relatório de Clientes");
+//            //fim teste
+//
+//            tela.setSize(1024, 768);
+//            tela.setLocale(null);
+//            tela.setLocationRelativeTo(null);
+//            JRViewer painel = new JRViewer(relatorioPreenchido);
+//            tela.getContentPane().add(painel);
+//            System.out.println("Abrindo o relatório");
+//            tela.setVisible(true);
+//            // JasperPrintManager.printPage(relatorioPreenchido, 0, false);//para enviar para impressora
+//            //true abre janela de impressao, false imprime direto
+//
+//        } catch (JRException e) {
+//            Object ex = null;
+//            Logger.getLogger(TelaManutencaoServico.class.getName()).log(Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório " + e);
+//
+//        }
     }//GEN-LAST:event_btnImprimirRelatorioDeClientesActionPerformed
 
     /**
@@ -348,12 +352,12 @@ public class telaprincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btMostrarServico;
     private javax.swing.JButton btnCliente;
     private javax.swing.JButton btnFuncionario;
     private javax.swing.JButton btnImprimirRelatorioDeClientes;
     private javax.swing.JButton btnImprimirServicosPrestados;
     private javax.swing.JButton btn_prestar_servico;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabelFrase;
     private javax.swing.JPanel jPanelBotoes;
     private javax.swing.JPanel jPanelFrase;
