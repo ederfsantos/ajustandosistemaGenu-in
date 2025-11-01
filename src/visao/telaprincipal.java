@@ -287,33 +287,33 @@ public class telaprincipal extends javax.swing.JFrame {
 
     private void btnImprimirRelatorioDeClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirRelatorioDeClientesActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "LEGAL!!! RELATORIO ESTA EM DESENVOLVIMENTO!!!");
-//        try {
-//            //teste
-//            String relatorio = "/relatorio/Relatorio_GENU.jasper";
-//            InputStream stream = getClass().getResourceAsStream(relatorio);//PARA FUNCIONAR NO ARQUIVO .JAR TEM QUE USAR ESTA LINHA
-//            //JasperPrint relatorioPreenchido = JasperFillManager.fillReport(relatorio,null,new JRBeanCollectionDataSource(controle.listarTodos()));
-//            JasperPrint relatorioPreenchido = JasperFillManager.fillReport(stream, null, new JRBeanCollectionDataSource(clienteControle.listarTodos()));
-//
-//            JDialog tela = new JDialog(this, "Relatório de Clientes");
-//            //fim teste
-//
-//            tela.setSize(1024, 768);
-//            tela.setLocale(null);
-//            tela.setLocationRelativeTo(null);
-//            JRViewer painel = new JRViewer(relatorioPreenchido);
-//            tela.getContentPane().add(painel);
-//            System.out.println("Abrindo o relatório");
-//            tela.setVisible(true);
-//            // JasperPrintManager.printPage(relatorioPreenchido, 0, false);//para enviar para impressora
-//            //true abre janela de impressao, false imprime direto
-//
-//        } catch (JRException e) {
-//            Object ex = null;
-//            Logger.getLogger(TelaManutencaoServico.class.getName()).log(Level.SEVERE, null, ex);
-//            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório " + e);
-//
-//        }
+      //  JOptionPane.showMessageDialog(null, "LEGAL!!! RELATORIO ESTA EM DESENVOLVIMENTO!!!");
+        try {
+            //teste
+            String relatorio = "/relatorio/relClientes.jasper";
+            InputStream stream = getClass().getResourceAsStream(relatorio);//PARA FUNCIONAR NO ARQUIVO .JAR TEM QUE USAR ESTA LINHA
+            //JasperPrint relatorioPreenchido = JasperFillManager.fillReport(relatorio,null,new JRBeanCollectionDataSource(controle.listarTodos()));
+            JasperPrint relatorioPreenchido = JasperFillManager.fillReport(stream, null, new JRBeanCollectionDataSource(clienteControle.listarTodos()));
+
+            JDialog tela = new JDialog(this, "Relatório de Clientes");
+            //fim teste
+
+            tela.setSize(1024, 768);
+            tela.setLocale(null);
+            tela.setLocationRelativeTo(null);
+            JRViewer painel = new JRViewer(relatorioPreenchido);
+            tela.getContentPane().add(painel);
+            System.out.println("Abrindo o relatório");
+            tela.setVisible(true);
+            // JasperPrintManager.printPage(relatorioPreenchido, 0, false);//para enviar para impressora
+            //true abre janela de impressao, false imprime direto
+
+        } catch (JRException e) {
+            Object ex = null;
+            Logger.getLogger(TelaManutencaoServico.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro ao gerar o relatório " + e);
+
+        }
     }//GEN-LAST:event_btnImprimirRelatorioDeClientesActionPerformed
 
     /**
